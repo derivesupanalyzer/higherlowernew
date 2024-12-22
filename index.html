@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tick Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-red {
+            background-color: red;
+            color: white;
+        }
+        .btn-green {
+            background-color: green;
+            color: white;
+        }
+        .btn-reset {
+            background-color: #ccc;
+        }
+        .input-field {
+            padding: 10px;
+            width: 80%;
+            max-width: 200px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .ball-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .ball {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+        .ball.red {
+            background-color: red;
+        }
+        .ball.green {
+            background-color: green;
+        }
+        .result {
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .reset-message {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tick Analyzer</h1>
+        <div>
+            <label for="market">Market:</label>
+            <select id="market" class="input-field">
+                <option value="volatility10">Volatility Index 10</option>
+                <option value="volatility25">Volatility 25</option>
+                <option value="volatility50">Volatility 50</option>
+                <option value="volatility75">Volatility 75</option>
+                <option value="volatility100">Volatility 100</option>
+            </select>
+        </div>
+        <div>
+            <label for="trade-type">Trade Type:</label>
+            <select id="trade-type" class="input-field">
+                <option value="rise-fall">Rise/Fall</option>
+                <option value="over-under">Over/Under</option>
+                <option value="higher-lower">Higher/Lower</option>
+                <option value="touch-no-touch">Touch/No Touch</option>
+            </select>
+        </div>
+        <div>
+            <label for="stake">Stake:</label>
+            <input type="number" id="stake" class="input-field" placeholder="Enter Stake">
+        </div>
+        <div class="ball-container">
+            <div class="ball red">%</div>
+            <div class="ball green">%</div>
+            <div class="ball red">%</div>
+            <div class="ball green">%</div>
+            <div class="ball red">%</div>
+            <div class="ball green">%</div>
+        </div>
+        <div>
+            <button class="btn btn-red" id="higher">Higher</button>
+            <button class="btn btn-green" id="lower">Lower</button>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="reset-message" id="reset-message"></div>
+        <button class="btn btn-reset" id="reset">Reset</button>
+    </div>
+
+    <script>
+        let higherCount = 0;
+        let lowerCount = 0;
+        let result = document.getElementById("result");
+        let resetMessage = document.getElementById("reset-message");
+
+        document.getElementById("higher").addEventListener("click", () => {
+            higherCount++;
+            checkResult();
+        });
+
+        document.getElementById("lower").addEventListener("click", () => {
+            lowerCount++;
+            checkResult();
+        });
+
+        document.getElementById("reset").addEventListener("click", reset);
+
+        function checkResult() {
+            if (higherCount + lowerCount >= 10) {
+                let mostClicked = higherCount > lowerCount ? "Higher" : "Lower";
+                result.innerHTML = `RESULT : ${mostClicked}`;
+                resetMessage.innerHTML = "";
+            }
+        }
+
+        function reset() {
+            higherCount = 0;
+            lowerCount = 0;
+            result.innerHTML = "";
+            resetMessage.innerHTML = "Everything has been reset.";
+            moveBalls();
+        }
+
+        function moveBalls() {
+            const balls = document.querySelectorAll(".ball");
+            setInterval(() => {
+                balls.forEach(ball => {
+                    const randomPercentage = Math.floor(Math.random() * 101);
+                    ball.innerHTML = `${randomPercentage}%`;
+                    ball.style.animation = "moveBall 2s ease-in-out infinite";
+                });
+            }, 1000);
+        }
+
+        // Initial ball movement
+        moveBalls();
+    </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
